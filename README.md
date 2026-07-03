@@ -91,7 +91,7 @@ uv sync --extra notebooks --extra train --extra dev
 uv run python -c "import torch; import sam3; print('Installation successful!')"
 ```
 
-5. **Optional dependencies for faster inference**
+4. **Optional dependencies for faster inference**
 ```bash
 pip install einops ninja && pip install flash-attn-3 --no-deps --index-url https://download.pytorch.org/whl/cu128
 pip install git+https://github.com/ronghanghu/cc_torch.git
