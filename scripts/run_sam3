@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Thin launcher so `scripts/run_sam3 --prompt ... --input-video ...` runs inside
+# the project's uv environment. OpenCV (video I/O for this script) and
+# pycocotools (required by the sam3.1 detector) are provided ephemerally so they
+# need not be permanent project dependencies.
+set -euo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec uv run --project "$REPO" --with opencv-python --with pycocotools \
+    python "$REPO/scripts/run_sam3.py" "$@"

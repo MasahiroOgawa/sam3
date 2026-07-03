@@ -158,5 +158,6 @@ Thumbs.db
 !assets/**
 outputs/
 output/
+result/
 results/
 artifacts/
