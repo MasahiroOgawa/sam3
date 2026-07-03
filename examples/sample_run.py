@@ -13,7 +13,7 @@ def run_sample():
     # Updated to look one directory up for assets since this is in examples/
     image_path = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "assets/images/test_image.jpg",
+        "assets/sa_co_dataset.jpg",
     )
 
     if not os.path.exists(image_path):
@@ -26,9 +26,7 @@ def run_sample():
         # Load the model
         print("Loading SAM3 model (this may trigger checkpoint download)...")
         model = build_sam3_image_model()
-        # Lower confidence threshold from default 0.5 to detect more objects
-        processor = Sam3Processor(model, confidence_threshold=0.1)
-
+        processor = Sam3Processor(model)
 
         # Load an image
         print(f"Loading image from {image_path}...")
@@ -39,7 +37,7 @@ def run_sample():
         inference_state = processor.set_image(image)
 
         # Prompt the model
-        prompt_text = "kid wearing a red bib"
+        prompt_text = "object"  # Generic prompt to find something
         print(f"Prompting with: '{prompt_text}'")
         output = processor.set_text_prompt(state=inference_state, prompt=prompt_text)
 
