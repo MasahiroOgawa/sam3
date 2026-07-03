@@ -20,6 +20,7 @@ are written to the output video as they are produced. The result is saved to
 """
 
 import argparse
+import getpass
 import os
 import re
 import shutil
@@ -36,22 +37,28 @@ def _bootstrap() -> None:
     if os.environ.get("_RUN_SAM3_BOOTSTRAPPED"):
         return
     os.environ["_RUN_SAM3_BOOTSTRAPPED"] = "1"
-    os.execvp(
-        "uv",
-        [
+    try:
+        os.execvp(
             "uv",
-            "run",
-            "--project",
-            str(REPO),
-            "--with",
-            "opencv-python",
-            "--with",
-            "pycocotools",
-            "python",
-            str(Path(__file__).resolve()),
-            *sys.argv[1:],
-        ],
-    )
+            [
+                "uv",
+                "run",
+                "--project",
+                str(REPO),
+                "--with",
+                "opencv-python",
+                "--with",
+                "pycocotools",
+                "python",
+                str(Path(__file__).resolve()),
+                *sys.argv[1:],
+            ],
+        )
+    except FileNotFoundError:
+        raise SystemExit(
+            "`uv` was not found on PATH. Install it first: "
+            "https://github.com/astral-sh/uv"
+        )
 
 
 _bootstrap()
@@ -62,7 +69,7 @@ _bootstrap()
 # fragmentation OOMs on smaller (e.g. 12 GB laptop) GPUs.
 os.environ.setdefault(
     "TORCHINDUCTOR_CACHE_DIR",
-    os.path.join(tempfile.gettempdir(), f"torchinductor_{os.getlogin()}"),
+    os.path.join(tempfile.gettempdir(), f"torchinductor_{getpass.getuser()}"),
 )
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
@@ -243,6 +250,12 @@ def main() -> None:
 
     if not os.path.isfile(args.input_video):
         raise SystemExit(f"Input video not found: {args.input_video}")
+    if args.chunk_size < 1:
+        raise SystemExit("--chunk-size must be >= 1")
+    if args.sample_fps <= 0:
+        raise SystemExit("--sample-fps must be > 0")
+    if not torch.cuda.is_available():
+        raise SystemExit("SAM 3 requires a CUDA GPU, but none is available.")
 
     if args.output:
         out_path = args.output
@@ -282,6 +295,11 @@ def main() -> None:
         writer = cv2.VideoWriter(
             out_path, cv2.VideoWriter_fourcc(*"mp4v"), args.sample_fps, (w, h)
         )
+        if not writer.isOpened():
+            raise SystemExit(
+                f"Could not open a video writer for {out_path} "
+                "(mp4v codec unavailable or path not writable)."
+            )
         title = f"SAM3 [{args.version}] | {args.prompt}"
         frames_with_obj = 0
         max_objs = 0
