@@ -147,3 +147,8 @@ explicit = true
 torch = { index = "pytorch-cu126" }
 torchvision = { index = "pytorch-cu126" }
 torchaudio = { index = "pytorch-cu126" }
+
+[dependency-groups]
+dev = [
+    "nbstripout>=0.8.2",
+]

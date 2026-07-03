@@ -2932,6 +2932,51 @@ wheels = [
 ]
 
 [[package]]
+name = "nbstripout"
+version = "0.8.2"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version < '3.10' and platform_machine == 'arm64' and sys_platform == 'darwin'",
+    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version < '3.10' and platform_machine != 'arm64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
+]
+dependencies = [
+    { name = "nbformat", marker = "python_full_version < '3.10'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/95/09/cea5360a0788f94337d1b65c313ff0a448fb6a444b65cab89378eb8f7d5c/nbstripout-0.8.2.tar.gz", hash = "sha256:2876530eb684bf93a5b48fe6d92b2163f78d040721c76b37d5b9e1514d38fc69", size = 27747, upload-time = "2025-11-16T17:38:55.6Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/12/e5/838eb1004fb9b6f0383c47c0d902eb698fda052e8e64ca48c70a2144a48c/nbstripout-0.8.2-py2.py3-none-any.whl", hash = "sha256:5f06f9138cb64daed3e91c5359ff0fff85bab4d0db7d72723be1da6f51b890ae", size = 17122, upload-time = "2025-11-16T17:38:54.164Z" },
+]
+
+[[package]]
+name = "nbstripout"
+version = "0.9.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.13' and sys_platform == 'darwin'",
+    "python_full_version == '3.12.*' and sys_platform == 'darwin'",
+    "python_full_version >= '3.13' and platform_machine == 'aarch64' and platform_python_implementation != 'CPython' and sys_platform == 'linux'",
+    "python_full_version == '3.12.*' and platform_machine == 'aarch64' and platform_python_implementation != 'CPython' and sys_platform == 'linux'",
+    "(python_full_version >= '3.13' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.13' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "(python_full_version == '3.12.*' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.13' and platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux'",
+    "python_full_version == '3.12.*' and platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux'",
+    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.11.*' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version == '3.11.*' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.11.*' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version == '3.10.*' and sys_platform == 'darwin'",
+    "python_full_version == '3.10.*' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version == '3.10.*' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.10.*' and sys_platform != 'darwin' and sys_platform != 'linux')",
+]
+dependencies = [
+    { name = "nbformat", marker = "python_full_version >= '3.10'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f9/6f/b52c4da26babeb521078c08c78c3187a59197098ffc7a70b0fe76851813a/nbstripout-0.9.1.tar.gz", hash = "sha256:313bbb4217c8e38998567e5d790b6bd6c3a17a8c39073b205b84dadfc5d756dc", size = 32356, upload-time = "2026-02-21T16:19:55.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/16/e777eadfa0c0305878c36fae1d5e6db474fbb15dae202b9ec378809dfb4d/nbstripout-0.9.1-py3-none-any.whl", hash = "sha256:ca027ee45742ee77e4f8e9080254f9a707f1161ba11367b82fdf4a29892c759e", size = 19136, upload-time = "2026-02-21T16:19:54.868Z" },
+]
+
+[[package]]
 name = "nest-asyncio"
 version = "1.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4738,6 +4783,12 @@ train = [
     { name = "zstandard" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "nbstripout", version = "0.8.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "nbstripout", version = "0.9.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = "==24.2.0" },
@@ -4757,7 +4808,7 @@ requires-dist = [
     { name = "matplotlib", marker = "extra == 'notebooks'" },
     { name = "notebook", marker = "extra == 'notebooks'" },
     { name = "numba", marker = "extra == 'dev'" },
-    { name = "numpy", specifier = "==1.26" },
+    { name = "numpy", specifier = ">=1.26,<2" },
     { name = "opencv-python", marker = "extra == 'dev'" },
     { name = "opencv-python", marker = "extra == 'notebooks'" },
     { name = "pandas", marker = "extra == 'dev'" },
@@ -4789,6 +4840,9 @@ requires-dist = [
     { name = "zstandard", marker = "extra == 'train'" },
 ]
 provides-extras = ["dev", "notebooks", "train"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "nbstripout", specifier = ">=0.8.2" }]
 
 [[package]]
 name = "scikit-image"
