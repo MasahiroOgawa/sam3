@@ -7,7 +7,7 @@ name = "sam3"
 dynamic = ["version"]
 description = "SAM3 (Segment Anything Model 3) implementation"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.9,<3.14"
 license = {file = "LICENSE"}
 authors = [
     {name = "Meta AI Research"}
@@ -31,11 +31,12 @@ dependencies = [
     "ftfy==6.1.1",
     "regex",
     "iopath>=0.1.10",
+    "einops",
     "typing_extensions",
     "huggingface_hub",
     "torch==2.7.0",
     "torchvision>=0.22.0",
-    "torchaudio>=2.7.0",
+    "torchaudio==2.7.0",
 ]
 
 [project.optional-dependencies]
@@ -64,7 +65,6 @@ notebooks = [
     "pycocotools",
     "decord",
     "opencv-python",
-    "einops",
     "scikit-image",
     "scikit-learn",
 ]
@@ -138,4 +138,11 @@ python_classes = "Test*"
 python_functions = "test_*"
 
 [[tool.uv.index]]
+name = "pytorch-cu126"
 url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+torchvision = { index = "pytorch-cu126" }
+torchaudio = { index = "pytorch-cu126" }
